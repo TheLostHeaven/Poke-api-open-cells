@@ -1,0 +1,49 @@
+.pokemon-container{
+  overflow: auto;
+  background-color: rgb(255, 255, 255);
+  padding: 2vw;
+  border-radius: 1rem;
+  width: 60rem;
+  height: 25em;
+  margin: auto;
+  border: 3px solid rgb(255, 0, 0);
+}
+
+h3{
+  margin-top: 2rem;
+}
+
+.pokemon-content-container{
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.pokemon-content-container li{
+  margin: 1vw;
+}
+
+.pokemon-moves-container{
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  overflow-x: scroll;
+}
+
+.pokemon-moves-container li{
+  margin: 1vw;
+  width: 15vw;
+}
+
+.pokemon-moves{
+  width: 200px;
+}
+
+
+.pokemon-moves-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

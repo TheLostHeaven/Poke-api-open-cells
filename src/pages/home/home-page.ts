@@ -68,7 +68,9 @@ export class HomePage extends LitElement {
     }
   }
 
-
+  handleCardClick(pokemon: any) {
+    this.pageController.navigate(`/pokedetail/${pokemon.id}`);
+  }
 
   render() {
     return html`
@@ -76,11 +78,10 @@ export class HomePage extends LitElement {
         <div class="search">
           <input type="text" placeholder="Search Pokémon" @input="${this.handleSearch}" />
         </div>
-        
         <ul class="pagination">
           ${(Array.isArray(this._pokemonsFilter) && this._pokemonsFilter.length > 0) ?
-            this._pokemonsFilter.map(pokemon => html`
-              <li >
+            this._pokemonsFilter.map((pokemon, index:number) => html`
+              <li @click="${() => {this.pageController.navigate('pokedetail', {id: index+1})}}">
                 <poke-card .pokemon="${pokemon}"></poke-card>
               </li>
             `) :

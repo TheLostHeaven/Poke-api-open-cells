@@ -3,7 +3,7 @@ export const appConfig = {
     basePath: `https://pokeapi.co/api/v2`,
     userId: `1`,
     actions: {
-      pokemon: `pokemon/`,
+      pokemon: `pokemon`,
       id: `:id`
 
     }

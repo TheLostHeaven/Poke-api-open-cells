@@ -16,6 +16,21 @@ function getFetchUrl(action: string, param?: string, paramValue?: string): URL {
   return data;
 }
 
+function getFetchUrl2(action: string , param?: string, paramValue?: string){
+  const data = new URL(`https://pokeapi.co/api/v2/${action}`);
+  if (param && paramValue) {
+      data.searchParams.set(param, paramValue);
+    }
+    return data;
+}
+
+async function fetchData(action: string , param?: string, paramValue?: string): Promise<any> {
+  console.log(`fetching data from ${getFetchUrl2(action, param, paramValue)}`);
+  const data = await fetch(getFetchUrl(action, param, paramValue));
+  return data.json();
+
+}
+
 async function fetchPokemon(
   action: keyof typeof actions,
   param?: string,
@@ -31,6 +46,4 @@ export const getAllPokemons = async (limit?: number) => {
   return pokemonList;
 };
 
-export const getPokemon = async (id: number) => {
-  return fetchPokemon('pokemon', id.toString());
-};
+export const getPokemon = async (id: number) => fetchData(`pokemon/${id}`);;

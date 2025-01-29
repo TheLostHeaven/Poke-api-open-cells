@@ -1,6 +1,7 @@
 @import url('./fonts.css');
 @import url('./colors.css');
 @import url('./home.css');
+@import url('./pokedetail.css');
 @import url('./poke-card.css');
 
 
@@ -12,6 +13,7 @@ body {
   background-size: cover;
   background-repeat:no-repeat;
   background-position: center center;
+
   height: 100%;
 
 }
@@ -25,6 +27,10 @@ body {
   line-height: 1.5rem;
   font-style: normal;
   color: var(--on-surface);
+}
+
+body img {
+  opacity: .5;
 }
 
 noscript {
@@ -41,6 +47,7 @@ h6,
 p {
   margin: 0;
   padding: 0;
+  margin-top: 2rem;
 }
 
 ul {
