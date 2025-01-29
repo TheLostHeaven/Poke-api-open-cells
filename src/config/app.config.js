@@ -4,6 +4,7 @@ export const appConfig = {
     userId: `1`,
     actions: {
       pokemon: `pokemon/`,
+      id: `:id`
 
     }
   }

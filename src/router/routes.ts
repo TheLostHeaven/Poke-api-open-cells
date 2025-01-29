@@ -10,7 +10,7 @@ export const routes: RouteDefinition[] = [
     },
   },
   {
-    path: '/pokedetail/:pokeid',
+    path: '/pokedetail/:id',
     name: 'pokedetail',
     component: 'pokedetail-page',
     action: async () => {

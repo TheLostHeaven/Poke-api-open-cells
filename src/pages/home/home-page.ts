@@ -1,84 +1,93 @@
-import { html, LitElement, nothing } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
-import { PageLayout } from '../../components/page-layout.js';
+import { html, LitElement,  } from 'lit';
+import { customElement,property, state } from 'lit/decorators.js';
 import '../../components/page-layout.js';
 import { getAllPokemons } from '../../components/pokeService.js';
-
+import { PageController } from '@open-cells/page-controller';
+import '../../components/poke-card.js';
 
 @customElement('home-page')
 export class HomePage extends LitElement {
-
-  private _layout: PageLayout | null = null;
-  pokemonList!: PokemonList[];
-  originalPokemons: Pokemon[] = []
-  filteredPokemons: Pokemon[] = []
+  pageController = new PageController(this);
 
   protected createRenderRoot(): HTMLElement | DocumentFragment {
     return this;
   }
 
-  @state()
-  protected _pokemons:Pokemon | null = null;
-  protected _pokemonsList:PokemonList | null = null;
-  protected _pokemonsFilter:PokemonReturn | null = null;
+  @property({ type: Number })
+    currentPage = 1;
 
-  async connectedCallback() {
-    '';
-    super.connectedCallback();
-    try {
-      const pokemonList = await getAllPokemons();
-      console.log(pokemonList);
-      this._pokemonsList = pokemonList;
-    }catch (error) {
-      console.error(error);
+  @property({ type: Number })
+    totalItems = 1300;
+
+  @property({ type: Number })
+    itemsPerPage = 60;
+
+  @property()
+    selectedType: String = "";
+
+  @state()
+  _pokemons:Pokemon[] | null = null;
+  @state()
+  _pokemonsList:PokemonList[] | null = null;
+  @state()
+  _pokemonsFilter:PokemonList[] | null = null;
+
+  get totalPages() {
+    return Math.ceil(this.totalItems / this.itemsPerPage);
+  }
+
+  async _getPokemons() {
+    const response = await getAllPokemons(1300);
+    return response.results;
+  }
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.dispatchEvent(new CustomEvent('page-changed', { detail: { page } }));
+  }
+
+  firstUpdated() {
+    this._getPokemons().then(_pokemonList => {
+      this._pokemonsList = _pokemonList;
+      this._pokemonsFilter = _pokemonList;
+      this.totalItems = _pokemonList.length;
+    });
+  }
+
+  handleSearch(event: Event) {
+    const searchQuery = (event.target as HTMLInputElement).value.toLowerCase();
+    if (this._pokemonsList) {
+      if (searchQuery === '') {
+        this._pokemonsFilter = this._pokemonsList;
+      } else {
+        this._pokemonsFilter = this._pokemonsList.filter((pokemon: any) =>
+          pokemon.name.toLowerCase().includes(searchQuery)
+        );
+      }
     }
   }
 
 
+
   render() {
     return html`
-      <div class="img-container">
-        <img
-          src="${this._pokemons?.image || ''}"
-          alt="${this._pokemons?.name || ''}"
-        />
-      </div>
-
-              <div class="ingredients-list">
-          <h3>Ingredients</h3>
-          <ul>
-            ${this._pokemonsList
-              ? Object.keys(this._pokemonsList)
-                  .filter(
-                    (key: string) =>
-                      // @ts-ignore
-                      key.includes('strIngredient') && this._recipe && this._recipe[key],
-                  )
-                  .map(
-                    key => html`
-                      <li>
-                        <p>${this._pokemons ? (this._pokemons as any)[key] : nothing}</p>
-                        <p>
-                          ${this._pokemons
-                            ? (this._pokemons as any)[`strMeasure${key.split('strIngredient')[1]}`]
-                            : nothing}
-                        </p>
-                      </li>
-                    `,
-                  )
-              : nothing}
-          </ul>
-
-            <div class="banner-text">
-        <div class="banner-text-heading">
-          <p class="heading-h3">Daily Special</p>
-          <a
-            class="poke-title"
-            href="#!/pokedetail/${this._pokemons?.id}"
-            >${this._pokemons?.name}</a
-          >
+      <div class="home">
+        <div class="search">
+          <input type="text" placeholder="Search Pokémon" @input="${this.handleSearch}" />
         </div>
+        
+        <ul class="pagination">
+          ${(Array.isArray(this._pokemonsFilter) && this._pokemonsFilter.length > 0) ?
+            this._pokemonsFilter.map(pokemon => html`
+              <li >
+                <poke-card .pokemon="${pokemon}"></poke-card>
+              </li>
+            `) :
+            html`<li>No Pokémon found</li>`
+          }
+        </ul>
+      </div>
     `;
   }
-
 }

@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { styles } from './app-index.css.js';
+
 
 //@ts-ignore
 @customElement('header-component')
@@ -9,7 +9,6 @@ export class HeaderComponent extends LitElement {
     // @ts-ignore
     return this;
   }
-  static styles = styles;
 
 render() {
     return html`

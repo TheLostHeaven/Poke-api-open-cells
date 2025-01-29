@@ -7,6 +7,7 @@ import { styles } from './app-index.css.js';
 import { appConfig } from '../config/app.config.js';
 import './header-component';
 
+
 startApp({
   routes,
   mainNode: 'app-content',
@@ -17,8 +18,6 @@ startApp({
 @customElement('app-index')
 export class AppIndex extends LitElement {
   elementController = new ElementController(this);
-
-
   static styles = styles;
 
   connectedCallback() {

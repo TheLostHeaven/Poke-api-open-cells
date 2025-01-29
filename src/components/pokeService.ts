@@ -25,9 +25,12 @@ async function fetchPokemon(
   return data.json();
 }
 
-// Pokemon
-export const getPokemonByName = async (pokeName: string) => fetchPokemon('pokemon', 's', pokeName );
-export const getAllPokemons = async () => fetchPokemon('pokemon');
-export const getPokemonById = async (id: string) => fetchPokemon('pokemon', 'i', id);
+export const getAllPokemons = async (limit?: number) => {
+  let pokemonList;
+  pokemonList = fetchPokemon(`pokemon`, 'limit', limit?.toString());
+  return pokemonList;
+};
 
-
+export const getPokemon = async (id: number) => {
+  return fetchPokemon('pokemon', id.toString());
+};

@@ -1,14 +1,19 @@
-@import url('./home.css');
 @import url('./fonts.css');
 @import url('./colors.css');
+@import url('./home.css');
+@import url('./poke-card.css');
 
 
 html,
 body {
   --border-radius-container: 0.5rem;
   --border-radius-img: 0.25rem;
-
+  background-image: url(../../images/462552.jpg);
+  background-size: cover;
+  background-repeat:no-repeat;
+  background-position: center center;
   height: 100%;
+
 }
 
 body {
